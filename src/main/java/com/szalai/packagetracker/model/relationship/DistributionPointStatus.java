@@ -23,8 +23,8 @@ public class DistributionPointStatus {
     @TargetNode
     private Warehouse warehouse;
 
-    public DistributionPointStatus(String status, LocalDateTime dateTime, String packageId, Warehouse warehouse) {
-        this.status = status;
+    public DistributionPointStatus(LocalDateTime dateTime, String packageId, Warehouse warehouse) {
+        this.status = String.format("Package with id [%s] arrived to the distribution point", packageId);
         this.dateTime = dateTime;
         this.packageId = packageId;
         this.warehouse = warehouse;

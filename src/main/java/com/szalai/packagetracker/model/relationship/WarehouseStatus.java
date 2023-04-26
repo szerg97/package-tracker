@@ -24,8 +24,8 @@ public class WarehouseStatus {
     @TargetNode
     private Destination warehouse;
 
-    public WarehouseStatus(String status, LocalDateTime dateTime, String packageId, Destination destination) {
-        this.status = status;
+    public WarehouseStatus(LocalDateTime dateTime, String packageId, Destination destination) {
+        this.status = String.format("Package with id [%s] was forwarded", packageId);
         this.dateTime = dateTime;
         this.packageId = packageId;
         this.warehouse = destination;

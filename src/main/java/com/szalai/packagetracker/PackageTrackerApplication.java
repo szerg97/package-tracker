@@ -6,34 +6,23 @@ import com.szalai.packagetracker.model.node.Destination;
 import com.szalai.packagetracker.model.node.DistributionPoint;
 import com.szalai.packagetracker.model.node.Shop;
 import com.szalai.packagetracker.model.node.Warehouse;
-import com.szalai.packagetracker.model.relationship.DestinationStatus;
-import com.szalai.packagetracker.model.relationship.DistributionPointStatus;
-import com.szalai.packagetracker.model.relationship.ShopStatus;
-import com.szalai.packagetracker.model.relationship.WarehouseStatus;
-import com.szalai.packagetracker.repository.DestinationRepository;
-import com.szalai.packagetracker.repository.DistributionPointRepository;
 import com.szalai.packagetracker.repository.ShopRepository;
-import com.szalai.packagetracker.repository.WarehouseRepository;
+import com.szalai.packagetracker.service.TransportService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @SpringBootApplication
 public class PackageTrackerApplication {
+    private final TransportService service;
     private final ShopRepository shopRepository;
-    private final DistributionPointRepository distributionPointRepository;
-    private final WarehouseRepository warehouseRepository;
-    private final DestinationRepository destinationRepository;
 
-    public PackageTrackerApplication(ShopRepository shopRepository, DistributionPointRepository distributionPointRepository, WarehouseRepository warehouseRepository, DestinationRepository destinationRepository) {
+    public PackageTrackerApplication(ShopRepository shopRepository, TransportService service) {
+        this.service = service;
         this.shopRepository = shopRepository;
-        this.distributionPointRepository = distributionPointRepository;
-        this.warehouseRepository = warehouseRepository;
-        this.destinationRepository = destinationRepository;
     }
 
     public static void main(String[] args) {
@@ -51,15 +40,11 @@ public class PackageTrackerApplication {
             Warehouse warehouse = new Warehouse("WH Munich", "90078 MUN, X. Y. street 66.");
             Destination destination = new Destination("Gergo's House","1088 Budapest, Y. Z. street 33.");
 
-            adidasShop.setStarts(List.of(new ShopStatus("Started shipping", LocalDateTime.of(2023, 4, 20, 8, 0), packA.getId(), distributionPoint)));
-            distributionPoint.setDistributions(List.of(new DistributionPointStatus("Distributing", LocalDateTime.of(2023, 4, 21, 8, 0), packA.getId(), warehouse)));
-            warehouse.setSends(List.of(new WarehouseStatus("Sending", LocalDateTime.of(2023, 4, 22, 8, 0), packA.getId(), destination)));
-            destination.setArrivals(List.of(new DestinationStatus("Sending", LocalDateTime.of(2023, 4, 23, 8, 0), packA.getId(), warehouse)));
+            service.post(adidasShop, distributionPoint, LocalDateTime.of(2023, 4, 20, 8, 0), packA.getId());
+            service.distribute(distributionPoint, warehouse, LocalDateTime.of(2023, 4, 21, 8, 0), packA.getId());
+            service.forward(warehouse, destination, LocalDateTime.of(2023, 4, 22, 8, 0), packA.getId());
+            service.arrive(warehouse, destination, LocalDateTime.of(2023, 4, 23, 8, 0), packA.getId());
 
-            shopRepository.save(adidasShop);
-            distributionPointRepository.save(distributionPoint);
-            warehouseRepository.save(warehouse);
-            destinationRepository.save(destination);
         }
     }
 }

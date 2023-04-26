@@ -23,8 +23,8 @@ public class DestinationStatus {
     @TargetNode
     private Warehouse warehouse;
 
-    public DestinationStatus(String status, LocalDateTime dateTime, String packageId, Warehouse warehouse) {
-        this.status = status;
+    public DestinationStatus(LocalDateTime dateTime, String packageId, Warehouse warehouse) {
+        this.status = String.format("Package with id [%s] has arrived", packageId);
         this.dateTime = dateTime;
         this.packageId = packageId;
         this.warehouse = warehouse;

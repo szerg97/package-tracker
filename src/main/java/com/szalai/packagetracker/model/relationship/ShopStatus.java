@@ -24,8 +24,8 @@ public class ShopStatus {
     @TargetNode
     private DistributionPoint shop;
 
-    public ShopStatus(String status, LocalDateTime dateTime, String packageId, DistributionPoint distributionPoint) {
-        this.status = status;
+    public ShopStatus(LocalDateTime dateTime, String packageId, DistributionPoint distributionPoint) {
+        this.status = String.format("Package with id [%s] was posted", packageId);
         this.dateTime = dateTime;
         this.packageId = packageId;
         this.shop = distributionPoint;
