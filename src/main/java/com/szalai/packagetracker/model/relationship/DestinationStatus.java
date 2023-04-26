@@ -15,7 +15,7 @@ public class DestinationStatus {
     @RelationshipId
     private Long id;
     @Property("status")
-    private String status;
+    private final String status;
     @Property("dateTime")
     private LocalDateTime dateTime;
     @Property("packageId")
@@ -24,7 +24,7 @@ public class DestinationStatus {
     private Warehouse warehouse;
 
     public DestinationStatus(LocalDateTime dateTime, String packageId, Warehouse warehouse) {
-        this.status = String.format("Package with id [%s] has arrived", packageId);
+        this.status = "Package has arrived";
         this.dateTime = dateTime;
         this.packageId = packageId;
         this.warehouse = warehouse;

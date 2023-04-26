@@ -16,7 +16,7 @@ public class ShopStatus {
     @RelationshipId
     private Long id;
     @Property("status")
-    private String status;
+    private final String status;
     @Property("dateTime")
     private LocalDateTime dateTime;
     @Property("packageId")
@@ -25,7 +25,7 @@ public class ShopStatus {
     private DistributionPoint shop;
 
     public ShopStatus(LocalDateTime dateTime, String packageId, DistributionPoint distributionPoint) {
-        this.status = String.format("Package with id [%s] was posted", packageId);
+        this.status = "Package was posted";
         this.dateTime = dateTime;
         this.packageId = packageId;
         this.shop = distributionPoint;
