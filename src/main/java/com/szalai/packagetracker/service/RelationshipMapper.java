@@ -1,8 +1,8 @@
 package com.szalai.packagetracker.service;
 
-import com.szalai.packagetracker.controller.response.ArrivalResponse;
-import com.szalai.packagetracker.controller.response.DistributionResponse;
-import com.szalai.packagetracker.controller.response.PostResponse;
+import com.szalai.packagetracker.controller.response.relationship.ArrivalResponse;
+import com.szalai.packagetracker.controller.response.relationship.DistributionResponse;
+import com.szalai.packagetracker.controller.response.relationship.PostResponse;
 import com.szalai.packagetracker.model.relationship.Arrival;
 import com.szalai.packagetracker.model.relationship.Distribution;
 import com.szalai.packagetracker.model.relationship.Post;

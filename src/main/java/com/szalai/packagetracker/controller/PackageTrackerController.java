@@ -1,6 +1,6 @@
 package com.szalai.packagetracker.controller;
 
-import com.szalai.packagetracker.controller.response.RouteResponse;
+import com.szalai.packagetracker.controller.response.TrackResponse;
 import com.szalai.packagetracker.model.node.Customer;
 import com.szalai.packagetracker.model.relationship.Arrival;
 import com.szalai.packagetracker.service.QueryService;
@@ -29,9 +29,9 @@ public class PackageTrackerController {
         return queryService.findArrivalsByCustomer(customerId);
     }
 
-    @GetMapping("/route/{packageId}")
-    public RouteResponse getRouteByPackage(
+    @GetMapping("/track/{packageId}")
+    public TrackResponse getTrackByPackage(
             @PathVariable String packageId){
-        return queryService.findRouteByPackage(packageId);
+        return queryService.findTrackByPackage(packageId);
     }
 }

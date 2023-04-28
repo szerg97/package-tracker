@@ -1,6 +1,6 @@
 package com.szalai.packagetracker.service;
 
-import com.szalai.packagetracker.controller.response.RouteResponse;
+import com.szalai.packagetracker.controller.response.TrackResponse;
 import com.szalai.packagetracker.model.node.Customer;
 import com.szalai.packagetracker.model.relationship.Arrival;
 import com.szalai.packagetracker.model.relationship.Distribution;
@@ -12,9 +12,7 @@ import com.szalai.packagetracker.repository.WarehouseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class QueryService {
@@ -41,11 +39,11 @@ public class QueryService {
         return customerRepository.findById(customerId).orElseThrow().getArrivals();
     }
 
-    public RouteResponse findRouteByPackage(String packageId) {
+    public TrackResponse findTrackByPackage(String packageId) {
         Post post = findPost(packageId);
         Distribution distribution = findDistribution(packageId);
         Arrival arrival = findArrival(packageId);
-        return new RouteResponse(
+        return new TrackResponse(
                 mapper.postToResponse(post),
                 mapper.distributionToResponse(distribution),
                 mapper.arrivalToResponse(arrival));

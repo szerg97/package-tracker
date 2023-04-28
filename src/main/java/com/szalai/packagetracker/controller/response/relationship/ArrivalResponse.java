@@ -1,4 +1,4 @@
-package com.szalai.packagetracker.controller.response;
+package com.szalai.packagetracker.controller.response.relationship;
 
 import java.time.LocalDateTime;
 
