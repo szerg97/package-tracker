@@ -1,7 +1,6 @@
 package com.szalai.packagetracker.model.node;
 
-import com.szalai.packagetracker.model.relationship.ShopStatus;
-import com.szalai.packagetracker.model.relationship.WarehouseStatus;
+import com.szalai.packagetracker.model.relationship.Forward;
 import lombok.Data;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -20,14 +19,14 @@ public class Warehouse {
     @Property("location")
     private String location;
     @Relationship(type = "FORWARDED", direction = Relationship.Direction.OUTGOING)
-    private List<WarehouseStatus> forwards = new ArrayList<>();
+    private List<Forward> forwards = new ArrayList<>();
 
     public Warehouse(String name, String location) {
         this.name = name;
         this.location = location;
     }
 
-    public void addForward(WarehouseStatus warehouseStatus){
-        this.forwards.add(warehouseStatus);
+    public void addForward(Forward forward){
+        this.forwards.add(forward);
     }
 }

@@ -1,8 +1,6 @@
 package com.szalai.packagetracker.model.node;
 
-import com.szalai.packagetracker.model.relationship.DestinationStatus;
-import com.szalai.packagetracker.model.relationship.DistributionPointStatus;
-import com.szalai.packagetracker.model.relationship.ShopStatus;
+import com.szalai.packagetracker.model.relationship.Distribution;
 import lombok.Data;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -21,14 +19,14 @@ public class DistributionPoint {
     @Property("location")
     private String location;
     @Relationship(type = "DISTRIBUTED", direction = Relationship.Direction.OUTGOING)
-    private List<DistributionPointStatus> distributions = new ArrayList<>();
+    private List<Distribution> distributions = new ArrayList<>();
 
     public DistributionPoint(String name, String location) {
         this.name = name;
         this.location = location;
     }
 
-    public void addDistribution(DistributionPointStatus distributionPointStatus){
-        this.distributions.add(distributionPointStatus);
+    public void addDistribution(Distribution distribution){
+        this.distributions.add(distribution);
     }
 }

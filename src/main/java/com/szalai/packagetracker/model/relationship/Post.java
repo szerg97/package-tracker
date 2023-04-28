@@ -1,6 +1,6 @@
 package com.szalai.packagetracker.model.relationship;
 
-import com.szalai.packagetracker.model.node.Warehouse;
+import com.szalai.packagetracker.model.node.DistributionPoint;
 import lombok.Data;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.RelationshipId;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @RelationshipProperties
-public class DestinationStatus {
+public class Post {
     @RelationshipId
     private Long id;
     @Property("status")
@@ -21,12 +21,12 @@ public class DestinationStatus {
     @Property("packageId")
     private String packageId;
     @TargetNode
-    private Warehouse warehouse;
+    private DistributionPoint shop;
 
-    public DestinationStatus(LocalDateTime dateTime, String packageId, Warehouse warehouse) {
-        this.status = "Package has arrived";
+    public Post(LocalDateTime dateTime, String packageId, DistributionPoint distributionPoint) {
+        this.status = "Package was posted";
         this.dateTime = dateTime;
         this.packageId = packageId;
-        this.warehouse = warehouse;
+        this.shop = distributionPoint;
     }
 }

@@ -1,6 +1,5 @@
 package com.szalai.packagetracker.model.relationship;
 
-import com.szalai.packagetracker.model.node.Destination;
 import com.szalai.packagetracker.model.node.Warehouse;
 import lombok.Data;
 import org.springframework.data.neo4j.core.schema.Property;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @RelationshipProperties
-public class WarehouseStatus {
+public class Arrival {
     @RelationshipId
     private Long id;
     @Property("status")
@@ -22,12 +21,12 @@ public class WarehouseStatus {
     @Property("packageId")
     private String packageId;
     @TargetNode
-    private Destination warehouse;
+    private Warehouse warehouse;
 
-    public WarehouseStatus(LocalDateTime dateTime, String packageId, Destination destination) {
-        this.status = "Package with was forwarded";
+    public Arrival(LocalDateTime dateTime, String packageId, Warehouse warehouse) {
+        this.status = "Package has arrived";
         this.dateTime = dateTime;
         this.packageId = packageId;
-        this.warehouse = destination;
+        this.warehouse = warehouse;
     }
 }

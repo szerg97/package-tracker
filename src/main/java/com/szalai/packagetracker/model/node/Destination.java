@@ -1,7 +1,6 @@
 package com.szalai.packagetracker.model.node;
 
-import com.szalai.packagetracker.model.relationship.DestinationStatus;
-import com.szalai.packagetracker.model.relationship.WarehouseStatus;
+import com.szalai.packagetracker.model.relationship.Arrival;
 import lombok.Data;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -20,14 +19,14 @@ public class Destination {
     @Property("location")
     private String location;
     @Relationship(type = "ARRIVED", direction = Relationship.Direction.INCOMING)
-    private List<DestinationStatus> arrivals = new ArrayList<>();
+    private List<Arrival> arrivals = new ArrayList<>();
 
     public Destination(String name, String location) {
         this.name = name;
         this.location = location;
     }
 
-    public void addArrival(DestinationStatus destinationStatus){
-        this.arrivals.add(destinationStatus);
+    public void addArrival(Arrival arrival){
+        this.arrivals.add(arrival);
     }
 }
