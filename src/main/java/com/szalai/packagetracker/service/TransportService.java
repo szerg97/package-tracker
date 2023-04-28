@@ -8,7 +8,7 @@ import com.szalai.packagetracker.model.relationship.Arrival;
 import com.szalai.packagetracker.model.relationship.Distribution;
 import com.szalai.packagetracker.model.relationship.Post;
 import com.szalai.packagetracker.model.relationship.Forward;
-import com.szalai.packagetracker.repository.DestinationRepository;
+import com.szalai.packagetracker.repository.CustomerRepository;
 import com.szalai.packagetracker.repository.DistributionPointRepository;
 import com.szalai.packagetracker.repository.ShopRepository;
 import com.szalai.packagetracker.repository.WarehouseRepository;
@@ -22,13 +22,13 @@ public class TransportService {
     private final ShopRepository shopRepository;
     private final DistributionPointRepository distributionPointRepository;
     private final WarehouseRepository warehouseRepository;
-    private final DestinationRepository destinationRepository;
+    private final CustomerRepository customerRepository;
 
-    public TransportService(ShopRepository shopRepository, DistributionPointRepository distributionPointRepository, WarehouseRepository warehouseRepository, DestinationRepository destinationRepository) {
+    public TransportService(ShopRepository shopRepository, DistributionPointRepository distributionPointRepository, WarehouseRepository warehouseRepository, CustomerRepository customerRepository) {
         this.shopRepository = shopRepository;
         this.distributionPointRepository = distributionPointRepository;
         this.warehouseRepository = warehouseRepository;
-        this.destinationRepository = destinationRepository;
+        this.customerRepository = customerRepository;
     }
 
     public void post(Shop from, DistributionPoint to, LocalDateTime dateTime, String packageId) {
@@ -48,6 +48,6 @@ public class TransportService {
 
     public void arrive(Warehouse from, Customer to, LocalDateTime dateTime, String packageId) {
         to.addArrival(new Arrival(dateTime, packageId, from));
-        destinationRepository.save(to);
+        customerRepository.save(to);
     }
 }

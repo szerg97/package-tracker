@@ -1,5 +1,7 @@
 package com.szalai.packagetracker.model.node;
 
+import java.util.UUID;
+
 public class ShopFactory {
     private static ShopFactory instance;
 
@@ -13,6 +15,6 @@ public class ShopFactory {
     }
 
     public Shop createShop(String name, String location){
-        return new Shop(name, location);
+        return new Shop(UUID.randomUUID().toString(), name, location);
     }
 }

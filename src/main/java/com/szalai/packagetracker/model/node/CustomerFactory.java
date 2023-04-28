@@ -1,5 +1,7 @@
 package com.szalai.packagetracker.model.node;
 
+import java.util.UUID;
+
 public class CustomerFactory {
     private static CustomerFactory instance;
 
@@ -13,6 +15,6 @@ public class CustomerFactory {
     }
 
     public Customer createCustomer(String name, String location){
-        return new Customer(name, location);
+        return new Customer(UUID.randomUUID().toString(), name, location);
     }
 }

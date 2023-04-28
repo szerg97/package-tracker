@@ -2,18 +2,19 @@ package com.szalai.packagetracker.model.node;
 
 import com.szalai.packagetracker.model.relationship.Arrival;
 import lombok.Data;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Property;
-import org.springframework.data.neo4j.core.schema.Relationship;
+import lombok.NoArgsConstructor;
+import org.springframework.data.neo4j.core.schema.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Node("Customer")
+@NoArgsConstructor
 public class Customer {
     @Id
+    private String id;
     @Property("name")
     private String name;
     @Property("location")
@@ -21,7 +22,8 @@ public class Customer {
     @Relationship(type = "ARRIVED", direction = Relationship.Direction.INCOMING)
     private List<Arrival> arrivals = new ArrayList<>();
 
-    public Customer(String name, String location) {
+    public Customer(String id, String name, String location) {
+        this.id = id;
         this.name = name;
         this.location = location;
     }

@@ -1,5 +1,7 @@
 package com.szalai.packagetracker.model.node;
 
+import java.util.UUID;
+
 public class DistributionPointFactory {
     private static DistributionPointFactory instance;
 
@@ -13,6 +15,6 @@ public class DistributionPointFactory {
     }
 
     public DistributionPoint createDistributionPoint(String name, String location){
-        return new DistributionPoint(name, location);
+        return new DistributionPoint(UUID.randomUUID().toString(), name, location);
     }
 }
