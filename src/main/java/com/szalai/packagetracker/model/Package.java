@@ -1,5 +1,6 @@
 package com.szalai.packagetracker.model;
 
+import com.szalai.packagetracker.model.node.Customer;
 import lombok.Data;
 
 @Data

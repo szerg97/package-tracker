@@ -1,8 +1,7 @@
 package com.szalai.packagetracker;
 
-import com.szalai.packagetracker.model.Customer;
 import com.szalai.packagetracker.model.Package;
-import com.szalai.packagetracker.model.node.Destination;
+import com.szalai.packagetracker.model.node.Customer;
 import com.szalai.packagetracker.model.node.DistributionPoint;
 import com.szalai.packagetracker.model.node.Shop;
 import com.szalai.packagetracker.model.node.Warehouse;
@@ -33,30 +32,51 @@ public class PackageTrackerApplication {
     @PostConstruct
     public void seed(){
         if (shopRepository.findAll().isEmpty()){
-            List<Customer> customers = List.of(
-                    new Customer(UUID.randomUUID().toString(), "Gergo"),
-                    new Customer(UUID.randomUUID().toString(), "Kowalsky"),
-                    new Customer(UUID.randomUUID().toString(), "Schmidt"),
-                    new Customer(UUID.randomUUID().toString(), "Helena"),
-                    new Customer(UUID.randomUUID().toString(), "Peter"));
 
-            Shop adidasShop = new Shop("Adidas Oakland", "1022 Oakland, 102. street 99.");
-            DistributionPoint distributionPoint = new DistributionPoint("DP New York", "1028 NY, 15. street 1024.");
-            Warehouse warehouse = new Warehouse("WH Munich", "90078 MUN, X. Y. street 66.");
-            List<Destination> destinations = List.of(
-                    new Destination("Gergo's House","1088 Budapest, Y. Z. street 33."),
-                    new Destination("Kowalsky's House","8000 Warsaw, Y. Z. street 43."),
-                    new Destination("Schmidt's House","7865 Vienna, Y. Z. street 22."),
-                    new Destination("Helena's House","6646433 Berlin, Y. Z. street 65."),
-                    new Destination("Peter's House","5345 Győr, Y. Z. street 98."));
+            List<Shop> shops = createShops();
+            List<DistributionPoint> distributionPoints = createDistributionPoints();
+            List<Warehouse> warehouses = createWarehouses();
+            List<Customer> customers = createCustomers();
 
-            for (int i = 0; i < 5; i++) {
-                Package pack = new Package(UUID.randomUUID().toString(), 24.0, customers.get(i));
-                service.post(adidasShop, distributionPoint, LocalDateTime.of(2023, 4, 20, 8, 0), pack.getId());
-                service.distribute(distributionPoint, warehouse, LocalDateTime.of(2023, 4, 21, 8, 0), pack.getId());
-                service.forward(warehouse, destinations.get(i), LocalDateTime.of(2023, 4, 22, 8, 0), pack.getId());
-                service.arrive(warehouse, destinations.get(i), LocalDateTime.of(2023, 4, 23, 8, 0), pack.getId());
-            }
+            sendPackagesToCustomers(shops, distributionPoints, warehouses, customers);
         }
+    }
+
+    private void sendPackagesToCustomers(List<Shop> shops,
+                                         List<DistributionPoint> distributionPoints,
+                                         List<Warehouse> warehouses,
+                                         List<Customer> customers) {
+        for (Customer customer : customers) {
+            Package pack = createPackage(customer);
+            service.post(shops.get(0), distributionPoints.get(0), LocalDateTime.of(2023, 4, 20, 8, 0), pack.getId());
+            service.distribute(distributionPoints.get(0), warehouses.get(0), LocalDateTime.of(2023, 4, 21, 8, 0), pack.getId());
+            //service.forward(warehouse, customers.get(i), LocalDateTime.of(2023, 4, 22, 8, 0), pack.getId());
+            service.arrive(warehouses.get(0), customer, LocalDateTime.of(2023, 4, 23, 8, 0), pack.getId());
+        }
+    }
+
+    private List<Shop> createShops() {
+        return List.of(new Shop("Adidas Oakland", "1022 Oakland, 102. street 99."));
+    }
+
+    private List<DistributionPoint> createDistributionPoints() {
+        return List.of(new DistributionPoint("DP New York", "1028 NY, 15. street 1024."));
+    }
+
+    private List<Warehouse> createWarehouses() {
+        return List.of(new Warehouse("WH Munich", "90078 MUN, X. Y. street 66."));
+    }
+
+    private List<Customer> createCustomers() {
+        return List.of(
+                new Customer("Adam Abraham","1088 Budapest, Y. Z. street 33."),
+                new Customer("Betty Brown","8000 Warsaw, Y. Z. street 43."),
+                new Customer("Charles Candy","7865 Vienna, Y. Z. street 22."),
+                new Customer("Daniel Downing","66433 Berlin, Y. Z. street 65."),
+                new Customer("Elizabeth Earnings","5345 Rome, Y. Z. street 98."));
+    }
+
+    private Package createPackage(Customer customer) {
+        return new Package(UUID.randomUUID().toString(), 24.0, customer);
     }
 }

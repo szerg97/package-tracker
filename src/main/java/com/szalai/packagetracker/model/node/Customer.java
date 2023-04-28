@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @Node("Destination")
-public class Destination {
+public class Customer {
     @Id
     @Property("name")
     private String name;
@@ -21,7 +21,7 @@ public class Destination {
     @Relationship(type = "ARRIVED", direction = Relationship.Direction.INCOMING)
     private List<Arrival> arrivals = new ArrayList<>();
 
-    public Destination(String name, String location) {
+    public Customer(String name, String location) {
         this.name = name;
         this.location = location;
     }

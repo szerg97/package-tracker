@@ -1,6 +1,6 @@
 package com.szalai.packagetracker.service;
 
-import com.szalai.packagetracker.model.node.Destination;
+import com.szalai.packagetracker.model.node.Customer;
 import com.szalai.packagetracker.model.node.DistributionPoint;
 import com.szalai.packagetracker.model.node.Shop;
 import com.szalai.packagetracker.model.node.Warehouse;
@@ -41,12 +41,12 @@ public class TransportService {
         distributionPointRepository.save(from);
     }
 
-    public void forward(Warehouse from, Destination to, LocalDateTime dateTime, String packageId) {
+    public void forward(Warehouse from, Customer to, LocalDateTime dateTime, String packageId) {
         from.addForward(new Forward(dateTime, packageId, to));
         warehouseRepository.save(from);
     }
 
-    public void arrive(Warehouse from, Destination to, LocalDateTime dateTime, String packageId) {
+    public void arrive(Warehouse from, Customer to, LocalDateTime dateTime, String packageId) {
         to.addArrival(new Arrival(dateTime, packageId, from));
         destinationRepository.save(to);
     }

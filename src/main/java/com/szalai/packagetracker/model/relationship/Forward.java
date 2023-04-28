@@ -1,6 +1,6 @@
 package com.szalai.packagetracker.model.relationship;
 
-import com.szalai.packagetracker.model.node.Destination;
+import com.szalai.packagetracker.model.node.Customer;
 import lombok.Data;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.RelationshipId;
@@ -21,12 +21,12 @@ public class Forward {
     @Property("packageId")
     private String packageId;
     @TargetNode
-    private Destination warehouse;
+    private Customer warehouse;
 
-    public Forward(LocalDateTime dateTime, String packageId, Destination destination) {
+    public Forward(LocalDateTime dateTime, String packageId, Customer customer) {
         this.status = "Package was forwarded";
         this.dateTime = dateTime;
         this.packageId = packageId;
-        this.warehouse = destination;
+        this.warehouse = customer;
     }
 }
