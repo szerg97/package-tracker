@@ -1,10 +1,8 @@
 package com.szalai.packagetracker;
 
 import com.szalai.packagetracker.model.Package;
-import com.szalai.packagetracker.model.node.Customer;
-import com.szalai.packagetracker.model.node.DistributionPoint;
-import com.szalai.packagetracker.model.node.Shop;
-import com.szalai.packagetracker.model.node.Warehouse;
+import com.szalai.packagetracker.model.PackageFactory;
+import com.szalai.packagetracker.model.node.*;
 import com.szalai.packagetracker.repository.ShopRepository;
 import com.szalai.packagetracker.service.TransportService;
 import jakarta.annotation.PostConstruct;
@@ -56,27 +54,32 @@ public class PackageTrackerApplication {
     }
 
     private List<Shop> createShops() {
-        return List.of(new Shop("Adidas Oakland", "1022 Oakland, 102. street 99."));
+        ShopFactory factory = ShopFactory.getInstance();
+        return List.of(factory.createShop("Adidas Oakland", "1022 Oakland, 102. street 99."));
     }
 
     private List<DistributionPoint> createDistributionPoints() {
-        return List.of(new DistributionPoint("DP New York", "1028 NY, 15. street 1024."));
+        DistributionPointFactory factory = DistributionPointFactory.getInstance();
+        return List.of(factory.createDistributionPoint("DP New York", "1028 NY, 15. street 1024."));
     }
 
     private List<Warehouse> createWarehouses() {
-        return List.of(new Warehouse("WH Munich", "90078 MUN, X. Y. street 66."));
+        WarehouseFactory factory = WarehouseFactory.getInstance();
+        return List.of(factory.createWarehouse("WH Munich", "90078 MUN, X. Y. street 66."));
     }
 
     private List<Customer> createCustomers() {
+        CustomerFactory factory = CustomerFactory.getInstance();
         return List.of(
-                new Customer("Adam Abraham","1088 Budapest, Y. Z. street 33."),
-                new Customer("Betty Brown","8000 Warsaw, Y. Z. street 43."),
-                new Customer("Charles Candy","7865 Vienna, Y. Z. street 22."),
-                new Customer("Daniel Downing","66433 Berlin, Y. Z. street 65."),
-                new Customer("Elizabeth Earnings","5345 Rome, Y. Z. street 98."));
+                factory.createCustomer("Adam Abraham","1088 Budapest, Y. Z. street 33."),
+                factory.createCustomer("Betty Brown","8000 Warsaw, Y. Z. street 43."),
+                factory.createCustomer("Charles Candy","7865 Vienna, Y. Z. street 22."),
+                factory.createCustomer("Daniel Downing","66433 Berlin, Y. Z. street 65."),
+                factory.createCustomer("Elizabeth Earnings","5345 Rome, Y. Z. street 98."));
     }
 
     private Package createPackage(Customer customer) {
-        return new Package(UUID.randomUUID().toString(), 24.0, customer);
+        PackageFactory factory = PackageFactory.getInstance();
+        return factory.createPackage(24.0, customer);
     }
 }
