@@ -4,10 +4,10 @@ import com.szalai.packagetracker.model.node.Customer;
 import com.szalai.packagetracker.model.node.DistributionPoint;
 import com.szalai.packagetracker.model.node.Shop;
 import com.szalai.packagetracker.model.node.Warehouse;
-import com.szalai.packagetracker.model.relationship.Arrival;
+import com.szalai.packagetracker.model.relationship.Forward;
 import com.szalai.packagetracker.model.relationship.Distribution;
 import com.szalai.packagetracker.model.relationship.Post;
-import com.szalai.packagetracker.model.relationship.Forward;
+import com.szalai.packagetracker.model.relationship.Arrival;
 import com.szalai.packagetracker.repository.CustomerRepository;
 import com.szalai.packagetracker.repository.DistributionPointRepository;
 import com.szalai.packagetracker.repository.ShopRepository;
@@ -41,7 +41,7 @@ public class TransportService {
         distributionPointRepository.save(from);
     }
 
-    public void forward(Warehouse from, Customer to, LocalDateTime dateTime, String packageId) {
+    public void forward(Warehouse from, Warehouse to, LocalDateTime dateTime, String packageId) {
         from.addForward(new Forward(dateTime, packageId, to));
         warehouseRepository.save(from);
     }

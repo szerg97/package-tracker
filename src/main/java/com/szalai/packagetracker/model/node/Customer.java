@@ -7,7 +7,6 @@ import org.springframework.data.neo4j.core.schema.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Node("Customer")
@@ -28,7 +27,7 @@ public class Customer {
         this.location = location;
     }
 
-    public void addArrival(Arrival arrival){
-        this.arrivals.add(arrival);
+    public void addArrival(Arrival forward){
+        this.arrivals.add(forward);
     }
 }

@@ -24,12 +24,12 @@ public class Arrival {
     @Property("packageId")
     private String packageId;
     @TargetNode
-    private Warehouse customer;
+    private Warehouse warehouse;
 
-    public Arrival(LocalDateTime dateTime, String packageId, Warehouse customer) {
+    public Arrival(LocalDateTime dateTime, String packageId, Warehouse warehouse) {
         this.status = "Package has arrived";
         this.dateTime = dateTime;
         this.packageId = packageId;
-        this.customer = customer;
+        this.warehouse = warehouse;
     }
 }

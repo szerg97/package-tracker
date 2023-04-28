@@ -52,7 +52,7 @@ public class PackageTrackerApplication {
             Package pack = createPackage(customer);
             service.post(randomShop, randomDp, LocalDateTime.of(2023, 4, 20, 8, 0), pack.getId());
             service.distribute(randomDp, randomWh, LocalDateTime.of(2023, 4, 21, 8, 0), pack.getId());
-            //service.forward(warehouse, customers.get(i), LocalDateTime.of(2023, 4, 22, 8, 0), pack.getId());
+            //service.forward(randomWh, randomWh2, LocalDateTime.of(2023, 4, 22, 8, 0), pack.getId());
             service.arrive(randomWh, customer, LocalDateTime.of(2023, 4, 23, 8, 0), pack.getId());
         }
     }

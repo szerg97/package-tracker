@@ -2,8 +2,9 @@ package com.szalai.packagetracker.service;
 
 import com.szalai.packagetracker.controller.response.TrackResponse;
 import com.szalai.packagetracker.model.node.Customer;
-import com.szalai.packagetracker.model.relationship.Arrival;
+import com.szalai.packagetracker.model.relationship.Forward;
 import com.szalai.packagetracker.model.relationship.Distribution;
+import com.szalai.packagetracker.model.relationship.Arrival;
 import com.szalai.packagetracker.model.relationship.Post;
 import com.szalai.packagetracker.repository.CustomerRepository;
 import com.szalai.packagetracker.repository.DistributionPointRepository;
@@ -42,10 +43,12 @@ public class QueryService {
     public TrackResponse findTrackByPackage(String packageId) {
         Post post = findPost(packageId);
         Distribution distribution = findDistribution(packageId);
+        Forward forward = findForward(packageId);
         Arrival arrival = findArrival(packageId);
         return new TrackResponse(
                 mapper.postToResponse(post),
                 mapper.distributionToResponse(distribution),
+                mapper.forwardToResponse(forward),
                 mapper.arrivalToResponse(arrival));
     }
 
@@ -80,5 +83,16 @@ public class QueryService {
                     arrivalList.addAll(arrivals);
                 });
         return arrivalList.stream().filter(p -> p.getPackageId().equals(packageId)).findFirst().orElseThrow();
+    }
+
+    private Forward findForward(String packageId) {
+        List<Forward> forwardList = new ArrayList<>();
+        warehouseRepository
+                .findAll()
+                .forEach(w -> {
+                    List<Forward> forwards = w.getForwards();
+                    forwardList.addAll(forwards);
+                });
+        return forwardList.stream().filter(p -> p.getPackageId().equals(packageId)).findFirst().orElseGet(() -> null);
     }
 }
