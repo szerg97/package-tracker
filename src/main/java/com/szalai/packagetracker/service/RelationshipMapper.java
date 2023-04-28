@@ -44,12 +44,12 @@ public class RelationshipMapper {
         );
     }
 
-    public ArrivalResponse arrivalToResponse(Arrival arrival) {
+    public ArrivalResponse arrivalToResponse(Arrival arrival, String customerId) {
         return new ArrivalResponse(
                 arrival.getId(),
                 arrival.getStatus(),
                 arrival.getDateTime(),
-                arrival.getWarehouse().getId()
+                customerId
         );
     }
 }

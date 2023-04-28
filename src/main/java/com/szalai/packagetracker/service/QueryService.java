@@ -13,7 +13,9 @@ import com.szalai.packagetracker.repository.WarehouseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class QueryService {
@@ -44,12 +46,14 @@ public class QueryService {
         Post post = findPost(packageId);
         Distribution distribution = findDistribution(packageId);
         Forward forward = findForward(packageId);
-        Arrival arrival = findArrival(packageId);
+        Map<Customer, Arrival> map = findArrival(packageId);
+        Customer customer = map.keySet().stream().findFirst().orElseThrow();
+        Arrival arrival = map.get(customer);
         return new TrackResponse(
                 mapper.postToResponse(post),
                 mapper.distributionToResponse(distribution),
                 mapper.forwardToResponse(forward),
-                mapper.arrivalToResponse(arrival));
+                mapper.arrivalToResponse(arrival, customer.getId()));
     }
 
     private Post findPost(String packageId) {
@@ -74,7 +78,7 @@ public class QueryService {
         return distributionList.stream().filter(p -> p.getPackageId().equals(packageId)).findFirst().orElseThrow();
     }
 
-    private Arrival findArrival(String packageId) {
+    private Map<Customer, Arrival> findArrival(String packageId) {
         List<Arrival> arrivalList = new ArrayList<>();
         customerRepository
                 .findAll()
@@ -82,7 +86,13 @@ public class QueryService {
                     List<Arrival> arrivals = c.getArrivals();
                     arrivalList.addAll(arrivals);
                 });
-        return arrivalList.stream().filter(p -> p.getPackageId().equals(packageId)).findFirst().orElseThrow();
+        Arrival arrival = arrivalList.stream().filter(p -> p.getPackageId().equals(packageId)).findFirst().orElseThrow();
+        Customer customer = customerRepository
+                .findAll().stream()
+                .filter(c -> c.getArrivals().contains(arrival))
+                .findFirst()
+                .orElseThrow();
+        return Map.of(customer, arrival);
     }
 
     private Forward findForward(String packageId) {
