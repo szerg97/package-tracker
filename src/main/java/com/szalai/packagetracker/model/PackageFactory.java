@@ -1,7 +1,6 @@
 package com.szalai.packagetracker.model;
 
 import com.szalai.packagetracker.model.node.Customer;
-import com.szalai.packagetracker.model.node.Shop;
 
 import java.util.UUID;
 
